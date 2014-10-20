@@ -20,19 +20,13 @@ Aus diesem Data Vault-Modell wird anhand des ETL-Programms eine Data Mart-Ebene 
 
 <h2>Datenbank-Schemata</h2>
 
-Skripte für das Anlegen und Befüllen einer leeren MySQL-Datenbank sind im folgenden Ordner abgelegt: 
-- [ ] Todo
+Skripte für das Anlegen und Befüllen einer leeren MySQL-Datenbank sind im Ordner "Schemata" abgelegt. Die Schemata sind verschieden groß und komplex. Sie können anhand des jeweils benannten SQL-Skriptes erzeugt werden:
 
-Die dort abgelegten Schemata sind verschieden groß und komplex. Sie können anhand des jeweils benannten SQL-Skriptes erzeugt werden:
-Schema	Beschreibung
-dvLite	Etwas umfangreicheres Schema. Hier sind TA_Links, F_-Einträge und PIT-Tabellen enthalten.
-dvMedium
-aus Abbildung 2
-Dieses Schema erweitert dvLite um hierarchische Links. Es entspricht dem in Abbildung 2 dargestellten Schema.
-
-dvMediumHAL	Dieses Schema erweitert dvMedium um einen weiteren Satelliten, der den HUB_GEO beschreibt (notwendig für Testabdeckung von Hierarchien).
-dvTest	Ein komplett anderes Schema für das erweiterte Testen.
-dvTestError	Fehlerhaftes Schema für das Testen des SchemaValidators.
+dvLite:	Etwas umfangreicheres Schema. Hier sind TA_Links, F_-Einträge und PIT-Tabellen enthalten.
+dvMedium: Dieses Schema erweitert dvLite um hierarchische Links. Es entspricht dem in Abbildung 2 dargestellten Schema.
+dvMediumHAL:	Dieses Schema erweitert dvMedium um einen weiteren Satelliten, der den HUB_GEO beschreibt (notwendig für Testabdeckung von Hierarchien).
+dvTest:	Ein komplett anderes Schema für das erweiterte Testen.
+dvTestError:	Fehlerhaftes Schema für das Testen des SchemaValidators.
 
 Wichtig: Diese Schemata basieren auf den Inhalten des Target-Schemas: 
 Es kann durch Ausführen des Skripts target.sql angelegt und befüllt werden. 
