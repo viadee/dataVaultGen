@@ -223,33 +223,6 @@ HUB	Für das Vereinen mehrerer Satelliten eines Hubs muss eine PIT-Tabelle gepfl
 HUB_PIT	Eine PIT-Tabelle umfasst die Gültigkeiten aller Satelliten des Hubs.
 F_	F_-Felder eines Satelliten werden zu einem Fakt vereint. Dabei wird die SQN des Satelliten übernommen. Es findet keine direkte Zuordnung zu einer Dimension statt.
 
-
-<h2>Backlog</h2>
-Die Reihenfolge der Einträge entspricht der Priorisierung!
-
-- [x] Realisierung der Historie durch Durchreichen, sodass die Historie bei der Analyse vollständig abgebildet wird.
-- [x]	SCDII für mehrere Satelliten eines Hubs (Stichwort dwh.pit=on).
-  -	PIT-Tabellen sind gemeinsame Ressource, daher vorher existent
-  -	Keine Überschreitung des Scope (Zielschema)
-- [x]	Auflösung der Historie bei der Erstellung der Views (optional, nur den letzten Stand).
-- [x]	Quell und Zielschema sind nicht identisch und wählbar.
-- [x]	Richtlinie: Datenbankspezifischer SQL-Code ist nur in Compositor-Klassen enthalten (damit man, um später zwischen DBs wechseln zu können, nur hier und in deren Komponenten anpassen muss und per Compositor-Implementierung DBs wählen kann)
-- [x]	Technische Schlüssel anhand von Hash-Werten (optional, als zusätzliche MatView)
-- [x]	Auflösen von hierarchischen Links (z.B. GEO).
--	Jeder Knoten hat max. einen Parent
--	Angabe der Hierarchietiefen
--	Denormalisiert, durchnummerierte Spalten 
-- [x]	Ausschalten der Materialisierung.
-- [x]	Mehrere hierarchische Links zu einem Hub erlauben.
-- [ ]	Vergabe von Hash-Keys in Fakten auch für mehrere Dimensionen pro Hub erlauben (dwh.modus = 0).
-- [ ]	Auflösen von hierarchischen Links MIT Historie
-  -	Problematik, dass die verschiedenen Hierarchieebenen auch verschiedene Gültigkeitszeiträume haben
-  -	Angabe der Historie des aktuellsten Eintrags
-- [ ]	Einschätzung zum Aufwand für Nutzung mit verschiedenen Datenbanken (insb. Oracle)
-- [ ]	Indizes automatisch setzen? Als Anforderung formulieren. Anhand der Data Vault-Struktur erkennbar?
-- [ ]	Satelliten für normale Links ermöglichen
-- [ ]	Regelsets für das Hinzufügen der Fachlichkeit  Self-Service-BI
-
 <h2>Anhang</h2>
 Data Mart-Ebene
 Die aus dem Data Vault-Schema dvMedium (siehe Abbildung 2) generierte Data Mart-Ebene könnte wie folgt aussehen (in Abhängigkeit der Einstellungen).
