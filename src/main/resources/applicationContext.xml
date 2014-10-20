@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	
+	<!-- Activate Annotation based configuration -->
+	<context:annotation-config />
+
+	<!-- Defines where to search for annotated components -->
+	<context:component-scan base-package="de.viadee.dv.application" />
+
+	<!-- Outsource configuration properties for data base connection -->
+	<context:property-placeholder
+		location="classpath:database.properties,classpath:application.properties"
+		system-properties-mode="OVERRIDE" />
+
+
+	<!-- Database connection -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxPoolSize" value="1" />
+	</bean>
+
+	<!-- SINGLETON BEANS -->
+	<!-- Bean jdbcTemplate with DataSource -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />	
+	</bean>
+
+	<!-- Schema Beans -->
+	<bean id="SchemaExtractor" class="de.viadee.dv.service.impl.SchemaExtractorImpl"></bean>
+	<bean id="HubDAO" class="de.viadee.dv.repository.impl.HubDAOImpl"></bean>
+	<bean id="LinkDAO" class="de.viadee.dv.repository.impl.LinkDAOImpl"></bean>
+	<bean id="SatelliteDAO" class="de.viadee.dv.repository.impl.SatelliteDAOImpl"></bean>
+
+	<!-- Target Builder Beans -->
+	<bean id="DimensionDAO" class="de.viadee.dv.repository.impl.DimensionDAOImpl">
+		<property name="historyOn" value="${dwh.history}" />
+	</bean>
+	<bean id="FactDAO" class="de.viadee.dv.repository.impl.FactDAOImpl" />
+	<bean id="DimensionBuilder" class="de.viadee.dv.service.impl.DimensionBuilderImpl">
+		<property name="modus" value="${dwh.modus}" />
+		<property name="enhanceViews" value="${dwh.enhance}"></property>
+		<property name="history" value="${dwh.history}" />
+		<property name="persist" value="${dwh.persist}"></property>
+		<property name="flatHierarchy" value="${dwh.flathierarchies}"></property>
+	</bean>
+	<bean id="FactBuilder" class="de.viadee.dv.service.impl.FactBuilderImpl">
+		<property name="modus" value="${dwh.modus}" />
+		<property name="enhanceViews" value="${dwh.enhance}"></property>
+		<property name="history" value="${dwh.history}" />
+		<property name="persist" value="${dwh.persist}"></property>
+	</bean>
+
+	<!-- TODO An- und Ausschalter für verschiedene Datenbanken -->
+	<!-- Helper Beans -->
+	<bean id="SchemaValidator" class="de.viadee.dv.service.supplement.impl.SchemaValidatorImpl"></bean>
+	
+	<bean id="TargetDDLCompositor" class="de.viadee.dv.sql.mySQL.TargetDDLCompositorImpl" />
+	<bean id="TargetTransformationDDLCompositor"
+		class="de.viadee.dv.sql.mySQL.SupplementDDLCompositorImpl">
+	</bean>
+	<bean id="SourceDDLCompositor" class="de.viadee.dv.sql.mySQL.SourceDMLCompositorImpl" />
+	<bean id="PITTableDMLCompositor" class="de.viadee.dv.sql.mySQL.PITTableDMLCompositorImpl"></bean>
+	<bean id="ViewEnhancer" class="de.viadee.dv.service.supplement.impl.ViewEnhancerImpl">
+		<property name="history" value="${dwh.history}" />
+	</bean>
+	<bean id="HierarchyFlattener" class="de.viadee.dv.service.supplement.impl.HierarchyFlattenerImpl"></bean>
+	<bean id="Materializer" class="de.viadee.dv.service.supplement.impl.MaterializerImpl"></bean>
+	<bean id="PITCreator" class="de.viadee.dv.service.pit.impl.PITCreatorImpl"></bean>
+	<bean id="schemaName" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${jdbc.schema}" />
+	</bean>
+	<bean id="targetSchemaName" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${jdbc.targetschema}" />
+	</bean>
+	<bean id="pitMode" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${source.pitmode}"/>
+	</bean>
+
+
+	<!-- Configure transaction management -->
+<!-- 	<tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+</beans>
