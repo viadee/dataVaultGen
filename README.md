@@ -7,9 +7,9 @@ Data Vault wird als eine sehr agile Modellierungstechnik für Data Warehouses be
 
 Die Bachelorarbeit von Christian Frieler beschäftigt sich mit der Agilität eines Data Vault-Modells. Bei der Untersuchung wurde die Prämisse definiert, dass das aufbauende Data Warehouse automatisiert und durch generische Prozesse virtualisiert werden kann. Diese Prämisse wurde untersucht, indem das notwendige ETL durch eine prototypische Java-Anwendung realisiert wurde. Die Ergebnisse dieser ergänzenden Untersuchung sind in diesem Dokument dargestellt.
 
-Dan Linstedt; Super Charge your Data Warehouse: Invaluable Data Modeling Rules to Implement Your Data Vault; Amazon Distribution, 2011 (Bib.-Nr.: DWH-00038)
+Dan Linstedt; Super Charge your Data Warehouse: Invaluable Data Modeling Rules to Implement Your Data Vault; Amazon Distribution, 2011.
 
-Hans Hultgren; Modeling the Agile Data Warehouse with Data Vault; New Hamilton, 2012 (Bib.-Nr.: DWH-00040).
+Hans Hultgren; Modeling the Agile Data Warehouse with Data Vault; New Hamilton, 2012.
 
 <h2>Grundlagen</h2>
 Auf ein ausführliches Grundlagenkapitel wird an dieser Stelle verzichtet. Diese Inhalte können in der genannten Bachelorarbeit sowie in der erwähnten Literatur nachgelesen werden. Dabei sind insbesondere die wesentlichen Struktur-Elemente eines Data Vault-Modells interessant (Hubs, Links und Satelliten).
@@ -86,10 +86,7 @@ o	Polarion SVN Connector (siehe Anhang Polarion-Pakete)
 Das zugrundeliegende Data Vault muss den nachfolgend beschriebenen Prämissen genügen (z.B. der Namenskonvention). Erfüllt es diese Prämissen nicht, werden bei Ausführung des Programms geeignete Fehlermeldungen ausgegeben und der ETL-Prozess wird abgebrochen.
 Außerdem gilt es zu beachten, dass bisher nur MySQL-Datenbanken unterstützt werden. Die verwendete Architektur erlaubt aber eine Koppelung mit weiteren Datenbanken. Dazu müssen die DDL-Compositor-Interfaces neu implementiert werden (im Projekt-Paket dv.sql). 
 Installation
-Das Projekt kann unter dem folgendem Link heruntergeladen oder als SVN-Projekt ausgecheckt werden:
-https://portal.intern.viadee.de/subversion/9114_viadee_Diplomarbeiten/59_Rother_DataVault_DWH/project/dv/tags/stable
-
-Nachdem das Projekt aus dem SVN importiert wurde, müssen mit Maven die Bibliotheken geladen werden. Dazu sollte ggf. das Gastnetz verwendet werden (Maven umgeht in der Standard-Konfiguration die Proxy-Einstellungen des Systems).
+Nachdem das Projekt aus dem Repository importiert wurde, müssen mit Maven die Bibliotheken geladen werden. Achtung: Maven umgeht in der Standard-Konfiguration die Proxy-Einstellungen des Systems.
 Start der Anwendung
 Vor dem ersten Start der Anwendung müssen zwingend die Parameter in der Datei src/main/resources/database.properties angepasst werden. Beispielhafte Einstellungen sind in folgender Tabelle abgebildet.
  
@@ -241,12 +238,12 @@ CREATE VIEW dvTarget.DIM_GEO AS
             else 1
         end) AS IS_VALID,
         dvMedium.SAT_GEO.BEZ_GEB_REGION AS BEZ_GEB_REGION,
-        dvMedium.SAT_GEO.SPARKASSE AS SPARKASSE
+        dvMedium.SAT_GEO.BANK AS BANK
     from
         (dvMedium.SAT_GEO
         join dvMedium.HUB_GEO ON ((dvMedium.SAT_GEO.SQN = dvMedium.HUB_GEO.SQN)))
 
-SQN	GEO_NUMBER	VALID_FROM	VALID_TO	IS_VALID	BEZ_GEB_REGION	SPARKASSE
+SQN	GEO_NUMBER	VALID_FROM	VALID_TO	IS_VALID	BEZ_GEB_REGION	BANK
 14	1001	2014-07-04 		1	Westfalen	
 15	1002	2014-07-04 		1	Rheinland	
 16	10001	2014-07-04 		1	Münster	
